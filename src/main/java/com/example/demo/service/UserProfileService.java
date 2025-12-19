@@ -6,8 +6,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserProfileService {
 
-    public UserProfile save(UserProfile user) {
+    public UserProfile register(UserProfile user) {
         return user;
+    }
+
+    public UserProfile findByEmail(String email) {
+        return null;
     }
 
     public UserProfile findByUsername(String username) {
