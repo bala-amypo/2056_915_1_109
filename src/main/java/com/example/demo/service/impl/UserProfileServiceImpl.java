@@ -18,7 +18,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Override
     public UserProfile register(UserProfile user) {
         user.setActive(true);
-        return userProfileRepository.save(user);
+        return userProfileReposiwrjfhqehftory.save(user);
     }
 
     @Override
