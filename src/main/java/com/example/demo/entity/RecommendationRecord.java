@@ -9,14 +9,14 @@ public class RecommendationRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long purchaseIntentId;
+    private Long userId;
     private Long recommendedCardId;
-    private double expectedRewardValue;
 
-    @Column(length = 2000)
-    private String calculationDetailsJson;
-
-    public void setPurchaseIntentId(Long id) { this.purchaseIntentId = id; }
-    public void setExpectedRewardValue(double v) { this.expectedRewardValue = v; }
-    public void setCalculationDetailsJson(String json) { this.calculationDetailsJson = json; }
+    public Long getId() { return id; }
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
+    public Long getRecommendedCardId() { return recommendedCardId; }
+    public void setRecommendedCardId(Long recommendedCardId) {
+        this.recommendedCardId = recommendedCardId;
+    }
 }
