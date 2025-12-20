@@ -1,12 +1,13 @@
 package com.example.demo.service.impl;
 
-import org.springframework.stereotype.Service;
-
 import com.example.demo.entity.RewardRule;
+import com.example.demo.exception.BadRequestException;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.RewardRuleRepository;
 import com.example.demo.service.RewardRuleService;
 
-@Service
+import java.util.List;
+
 public class RewardRuleServiceImpl implements RewardRuleService {
 
     private final RewardRuleRepository rewardRuleRepository;
@@ -16,7 +17,40 @@ public class RewardRuleServiceImpl implements RewardRuleService {
     }
 
     @Override
-    public RewardRule addRule(RewardRule rule) {
+    public RewardRule createRule(RewardRule rule) {
+        if (rule.getMultiplier() == null || rule.getMultiplier() <= 0.0) {
+            throw new BadRequestException("Price multiplier must be > 0");
+        }
         return rewardRuleRepository.save(rule);
+    }
+
+    @Override
+    public RewardRule updateRule(Long id, RewardRule updated) {
+        RewardRule existing = rewardRuleRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Rule not found"));
+        existing.setCategory(updated.getCategory());
+        existing.setRewardType(updated.getRewardType());
+        existing.setMultiplier(updated.getMultiplier());
+        existing.setActive(updated.getActive());
+        existing.setCardId(updated.getCardId());
+        return rewardRuleRepository.save(existing);
+    }
+
+    @Override
+    public List<RewardRule> getRulesByCard(Long cardId) {
+        return rewardRuleRepository.findAll()
+                .stream()
+                .filter(r -> cardId.equals(r.getCardId()))
+                .toList();
+    }
+
+    @Override
+    public List<RewardRule> getActiveRules() {
+        return rewardRuleRepository.findByActiveTrue();
+    }
+
+    @Override
+    public List<RewardRule> getAllRules() {
+        return rewardRuleRepository.findAll();
     }
 }
