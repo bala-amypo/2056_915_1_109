@@ -2,10 +2,8 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Entity
-@Table(name = "credit_cards")
 public class CreditCardRecord {
 
     @Id
@@ -13,27 +11,19 @@ public class CreditCardRecord {
     private Long id;
 
     private Long userId;
-
     private String cardName;
     private String issuer;
     private String cardType;
     private Double annualFee;
     private String status;
-
     private LocalDateTime createdAt;
 
-    @ManyToMany(mappedBy = "favouriteCards")
-    private Set<UserProfile> users;
-
     @PrePersist
-    public void onCreate() {
+    public void prePersist() {
         this.createdAt = LocalDateTime.now();
     }
 
-    public CreditCardRecord() {}
-
-    /* Getters & Setters */
-
+    // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

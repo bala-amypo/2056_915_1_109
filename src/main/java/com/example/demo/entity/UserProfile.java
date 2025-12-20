@@ -2,48 +2,32 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Entity
-@Table(name = "user_profiles")
 public class UserProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
     private String userId;
-
     private String fullName;
-
-    @Column(unique = true)
     private String email;
-
     private String password;
-
     private String role;
-
-    private Boolean active = true;
+    private Boolean active;
 
     private LocalDateTime createdAt;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_favourite_cards",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "card_id")
-    )
-    private Set<CreditCardRecord> favouriteCards;
-
     @PrePersist
-    public void onCreate() {
+    public void prePersist() {
         this.createdAt = LocalDateTime.now();
+        if (this.role == null) {
+            this.role = "USER";
+        }
     }
 
-    public UserProfile() {}
-    
-
+    // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -66,9 +50,4 @@ public class UserProfile {
     public void setActive(Boolean active) { this.active = active; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
-
-    public Set<CreditCardRecord> getFavouriteCards() { return favouriteCards; }
-    public void setFavouriteCards(Set<CreditCardRecord> favouriteCards) {
-        this.favouriteCards = favouriteCards;
-    }
 }
