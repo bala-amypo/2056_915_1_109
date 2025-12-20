@@ -1,12 +1,44 @@
-package com.example.demo.repository;
+@Entity
+public class RecommendationRecord {
 
-import com.example.demo.entity.RecommendationRecord;
-import org.springframework.data.jpa.repository.JpaRepository;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-import java.util.List;
+    private Long userId;
+    private Long purchaseIntentId;
+    private Long recommendedCardId;
+    private double expectedRewardValue;
 
-public interface RecommendationRecordRepository
-        extends JpaRepository<RecommendationRecord, Long> {
+    @Column(columnDefinition = "TEXT")
+    private String calculationDetailsJson;
 
-    List<RecommendationRecord> findByUserId(Long userId);
+    // ===== GETTERS & SETTERS =====
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getRecommendedCardId() {
+        return recommendedCardId;
+    }
+
+    public void setRecommendedCardId(Long recommendedCardId) {
+        this.recommendedCardId = recommendedCardId;
+    }
+
+    public void setPurchaseIntentId(Long purchaseIntentId) {
+        this.purchaseIntentId = purchaseIntentId;
+    }
+
+    public void setExpectedRewardValue(double expectedRewardValue) {
+        this.expectedRewardValue = expectedRewardValue;
+    }
+
+    public void setCalculationDetailsJson(String calculationDetailsJson) {
+        this.calculationDetailsJson = calculationDetailsJson;
+    }
 }
