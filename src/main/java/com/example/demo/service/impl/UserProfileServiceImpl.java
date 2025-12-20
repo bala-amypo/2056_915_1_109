@@ -8,6 +8,11 @@ import com.example.demo.service.UserProfileService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
+@Override
+public UserProfile findByEmail(String email) {
+    return userProfileRepository.findByEmail(email)
+            .orElse(null);
+}
 
 public class UserProfileServiceImpl implements UserProfileService {
 
