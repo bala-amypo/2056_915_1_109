@@ -1,42 +1,37 @@
 package com.example.demo.dto;
 
-public class CreditCardDto {
+import java.time.LocalDateTime;
+
+public class PurchaseIntentDto {
     private Long id;
     private Long userId;
-    private String cardName;
-    private String issuer;
-    private String cardType;
-    private Double annualFee;
-    private String status;
-    private java.time.LocalDateTime createdAt;
+    private Double amount;
+    private String category;
+    private String merchant;
+    private LocalDateTime intentDate;
 
     // Default constructor (for JSON deserialization)
-    public CreditCardDto() {}
+    public PurchaseIntentDto() {}
 
     // Parameterized constructor (for creating from entity)
-    public CreditCardDto(Long id, Long userId, String cardName, String issuer, 
-                        String cardType, Double annualFee, String status, 
-                        java.time.LocalDateTime createdAt) {
+    public PurchaseIntentDto(Long id, Long userId, Double amount, String category, 
+                           String merchant, LocalDateTime intentDate) {
         this.id = id;
         this.userId = userId;
-        this.cardName = cardName;
-        this.issuer = issuer;
-        this.cardType = cardType;
-        this.annualFee = annualFee;
-        this.status = status;
-        this.createdAt = createdAt;
+        this.amount = amount;
+        this.category = category;
+        this.merchant = merchant;
+        this.intentDate = intentDate;
     }
 
-    // Constructor from CreditCardRecord entity
-    public CreditCardDto(com.example.demo.entity.CreditCardRecord card) {
-        this.id = card.getId();
-        this.userId = card.getUserId();
-        this.cardName = card.getCardName();
-        this.issuer = card.getIssuer();
-        this.cardType = card.getCardType();
-        this.annualFee = card.getAnnualFee();
-        this.status = card.getStatus();
-        this.createdAt = card.getCreatedAt();
+    // Constructor from PurchaseIntentRecord entity
+    public PurchaseIntentDto(com.example.demo.entity.PurchaseIntentRecord intent) {
+        this.id = intent.getId();
+        this.userId = intent.getUserId();
+        this.amount = intent.getAmount();
+        this.category = intent.getCategory();
+        this.merchant = intent.getMerchant();
+        this.intentDate = intent.getIntentDate();
     }
 
     // Getters and Setters
@@ -56,51 +51,35 @@ public class CreditCardDto {
         this.userId = userId;
     }
 
-    public String getCardName() {
-        return cardName;
+    public Double getAmount() {
+        return amount;
     }
 
-    public void setCardName(String cardName) {
-        this.cardName = cardName;
+    public void setAmount(Double amount) {
+        this.amount = amount;
     }
 
-    public String getIssuer() {
-        return issuer;
+    public String getCategory() {
+        return category;
     }
 
-    public void setIssuer(String issuer) {
-        this.issuer = issuer;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
-    public String getCardType() {
-        return cardType;
+    public String getMerchant() {
+        return merchant;
     }
 
-    public void setCardType(String cardType) {
-        this.cardType = cardType;
+    public void setMerchant(String merchant) {
+        this.merchant = merchant;
     }
 
-    public Double getAnnualFee() {
-        return annualFee;
+    public LocalDateTime getIntentDate() {
+        return intentDate;
     }
 
-    public void setAnnualFee(Double annualFee) {
-        this.annualFee = annualFee;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public java.time.LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(java.time.LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setIntentDate(LocalDateTime intentDate) {
+        this.intentDate = intentDate;
     }
 }
