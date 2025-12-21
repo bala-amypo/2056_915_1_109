@@ -1,40 +1,34 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.PurchaseIntentRecord;
-import com.example.demo.repository.PurchaseIntentRecordRepository;
+import com.example.demo.entity.PurchaseIntent;
+import com.example.demo.repository.PurchaseIntentRepository;
 import com.example.demo.service.PurchaseIntentService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service   // 🔥 WITHOUT THIS, SPRING WILL FAIL
 public class PurchaseIntentServiceImpl implements PurchaseIntentService {
 
-    private final PurchaseIntentRecordRepository intentRepository;
+    private final PurchaseIntentRepository repository;
 
-    public PurchaseIntentServiceImpl(PurchaseIntentRecordRepository intentRepository) {
-        this.intentRepository = intentRepository;
+    public PurchaseIntentServiceImpl(PurchaseIntentRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public PurchaseIntentRecord createIntent(PurchaseIntentRecord intent) {
-        if (intent.getAmount() <= 0) {
-            throw new RuntimeException("Amount must be greater than 0");
-        }
-        return intentRepository.save(intent);
+    public PurchaseIntent createPurchaseIntent(PurchaseIntent intent) {
+        return repository.save(intent);
     }
 
     @Override
-    public PurchaseIntentRecord getIntentById(Long id) {
-        return intentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Intent not found"));
+    public PurchaseIntent getPurchaseIntentById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("PurchaseIntent not found"));
     }
 
     @Override
-    public List<PurchaseIntentRecord> getIntentsByUser(Long userId) {
-        return intentRepository.findByUserId(userId);
-    }
-
-    @Override
-    public List<PurchaseIntentRecord> getAllIntents() {
-        return intentRepository.findAll();
+    public List<PurchaseIntent> getAllPurchaseIntents() {
+        return repository.findAll();
     }
 }
