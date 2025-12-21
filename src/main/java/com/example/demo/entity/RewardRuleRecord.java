@@ -7,7 +7,6 @@ import jakarta.persistence.*;
     name = "reward_rules",
     uniqueConstraints = @UniqueConstraint(columnNames = {"cardId", "category"})
 )
-@Entity
 public class RewardRuleRecord {
 
     @Id
