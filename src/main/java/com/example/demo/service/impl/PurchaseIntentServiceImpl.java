@@ -3,38 +3,36 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.PurchaseIntentRecord;
 import com.example.demo.repository.PurchaseIntentRecordRepository;
 import com.example.demo.service.PurchaseIntentService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class PurchaseIntentServiceImpl implements PurchaseIntentService {
 
-    private final PurchaseIntentRecordRepository intentRepository;
+    private final PurchaseIntentRecordRepository repository;
 
-    public PurchaseIntentServiceImpl(PurchaseIntentRecordRepository intentRepository) {
-        this.intentRepository = intentRepository;
+    public PurchaseIntentServiceImpl(PurchaseIntentRecordRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public PurchaseIntentRecord createIntent(PurchaseIntentRecord intent) {
-        if (intent.getAmount() <= 0) {
-            throw new RuntimeException("Amount must be greater than 0");
-        }
-        return intentRepository.save(intent);
+        return repository.save(intent);
     }
 
     @Override
     public PurchaseIntentRecord getIntentById(Long id) {
-        return intentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Intent not found"));
+        return repository.findById(id).orElse(null);
     }
 
     @Override
     public List<PurchaseIntentRecord> getIntentsByUser(Long userId) {
-        return intentRepository.findByUserId(userId);
+        return repository.findByUserId(userId);
     }
 
     @Override
     public List<PurchaseIntentRecord> getAllIntents() {
-        return intentRepository.findAll();
+        return repository.findAll();
     }
 }
