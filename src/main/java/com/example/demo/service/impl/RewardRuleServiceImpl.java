@@ -1,55 +1,40 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.RewardRule;
-import com.example.demo.repository.RewardRuleRepository;
+import com.example.demo.entity.RewardRuleRecord;
+import com.example.demo.repository.RewardRuleRecordRepository;
 import com.example.demo.service.RewardRuleService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class RewardRuleServiceImpl implements RewardRuleService {
 
-    private final RewardRuleRepository rewardRuleRepository;
+    private final RewardRuleRecordRepository rewardRuleRepository;
 
-    public RewardRuleServiceImpl(RewardRuleRepository rewardRuleRepository) {
+    public RewardRuleServiceImpl(
+            RewardRuleRecordRepository rewardRuleRepository) {
         this.rewardRuleRepository = rewardRuleRepository;
     }
 
     @Override
-    public RewardRule createRule(RewardRule rule) {
-        if (rule.getMultiplier() <= 0) {
-            throw new RuntimeException("Multiplier must be greater than 0");
-        }
+    public RewardRuleRecord createRule(RewardRuleRecord rule) {
         return rewardRuleRepository.save(rule);
     }
 
     @Override
-    public RewardRule updateRule(Long id, RewardRule updated) {
-        RewardRule rule = rewardRuleRepository.findById(id)
+    public RewardRuleRecord getRuleById(Long id) {
+        return rewardRuleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Rule not found"));
-
-        rule.setCategory(updated.getCategory());
-        rule.setRewardType(updated.getRewardType());
-        rule.setMultiplier(updated.getMultiplier());
-        rule.setActive(updated.getActive());
-
-        return rewardRuleRepository.save(rule);
     }
 
     @Override
-    public List<RewardRule> getRulesByCard(Long cardId) {
-        return rewardRuleRepository.findAll()
-                .stream()
-                .filter(r -> r.getCardId().equals(cardId))
-                .toList();
+    public List<RewardRuleRecord> getRulesByCard(Long cardId) {
+        return rewardRuleRepository.findByCreditCardId(cardId);
     }
 
     @Override
-    public List<RewardRule> getActiveRules() {
-        return rewardRuleRepository.findByActiveTrue();
-    }
-
-    @Override
-    public List<RewardRule> getAllRules() {
+    public List<RewardRuleRecord> getAllRules() {
         return rewardRuleRepository.findAll();
     }
 }
