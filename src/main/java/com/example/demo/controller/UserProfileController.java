@@ -7,33 +7,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class UserProfileController {
 
-    private final UserProfileService userService;
+    private final UserProfileService userProfileService;
 
-    public UserProfileController(UserProfileService userService) {
-        this.userService = userService;
-    }
-
-    @PostMapping
-    public UserProfile createUser(@RequestBody UserProfile profile) {
-        return userService.createUser(profile);
-    }
-
-    @GetMapping("/{id}")
-    public UserProfile getUserById(@PathVariable Long id) {
-        return userService.getUserById(id);
-    }
-
-    @GetMapping
-    public List<UserProfile> getAllUsers() {
-        return userService.getAllUsers();
-    }
-
-    @PutMapping("/{id}/status")
-    public UserProfile updateStatus(@PathVariable Long id,
-                                    @RequestParam boolean active) {
-        return userService.updateUserStatus(id, active);
+    public UserProfileController(UserProfileService userProfileService) {
+        this.userProfileService = userProfileService;
     }
 }
