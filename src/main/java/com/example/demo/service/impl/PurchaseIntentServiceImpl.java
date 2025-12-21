@@ -1,34 +1,40 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.PurchaseIntent;
-import com.example.demo.repository.PurchaseIntentRepository;
+import com.example.demo.entity.PurchaseIntentRecord;
+import com.example.demo.repository.PurchaseIntentRecordRepository;
 import com.example.demo.service.PurchaseIntentService;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service   // 🔥 THIS IS THE MOST IMPORTANT LINE
 public class PurchaseIntentServiceImpl implements PurchaseIntentService {
 
-    private final PurchaseIntentRepository purchaseIntentRepository;
+    private final PurchaseIntentRecordRepository intentRepository;
 
-    public PurchaseIntentServiceImpl(PurchaseIntentRepository purchaseIntentRepository) {
-        this.purchaseIntentRepository = purchaseIntentRepository;
+    public PurchaseIntentServiceImpl(PurchaseIntentRecordRepository intentRepository) {
+        this.intentRepository = intentRepository;
     }
 
     @Override
-    public PurchaseIntent createPurchaseIntent(PurchaseIntent intent) {
-        return purchaseIntentRepository.save(intent);
+    public PurchaseIntentRecord createIntent(PurchaseIntentRecord intent) {
+        if (intent.getAmount() <= 0) {
+            throw new RuntimeException("Amount must be greater than 0");
+        }
+        return intentRepository.save(intent);
     }
 
     @Override
-    public PurchaseIntent getPurchaseIntentById(Long id) {
-        return purchaseIntentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Purchase Intent not found"));
+    public PurchaseIntentRecord getIntentById(Long id) {
+        return intentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Intent not found"));
     }
 
     @Override
-    public List<PurchaseIntent> getAllPurchaseIntents() {
-        return purchaseIntentRepository.findAll();
+    public List<PurchaseIntentRecord> getIntentsByUser(Long userId) {
+        return intentRepository.findByUserId(userId);
+    }
+
+    @Override
+    public List<PurchaseIntentRecord> getAllIntents() {
+        return intentRepository.findAll();
     }
 }
