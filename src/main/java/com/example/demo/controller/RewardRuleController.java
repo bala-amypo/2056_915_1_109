@@ -1,38 +1,44 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.RewardRuleRecord;
+import com.example.demo.entity.RewardRule;
 import com.example.demo.service.RewardRuleService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/reward-rules")
+@RequestMapping("/api/rewards")
 public class RewardRuleController {
 
-    private final RewardRuleService rewardRuleService;
+    private final RewardRuleService rewardService;
 
-    public RewardRuleController(RewardRuleService rewardRuleService) {
-        this.rewardRuleService = rewardRuleService;
+    public RewardRuleController(RewardRuleService rewardService) {
+        this.rewardService = rewardService;
     }
 
     @PostMapping
-    public RewardRuleRecord create(@RequestBody RewardRuleRecord rule) {
-        return rewardRuleService.createRule(rule);
+    public RewardRule createRule(@RequestBody RewardRule rule) {
+        return rewardService.createRule(rule);
     }
 
-    @GetMapping("/{id}")
-    public RewardRuleRecord getById(@PathVariable Long id) {
-        return rewardRuleService.getRuleById(id);
+    @PutMapping("/{id}")
+    public RewardRule updateRule(@PathVariable Long id,
+                                 @RequestBody RewardRule rule) {
+        return rewardService.updateRule(id, rule);
     }
 
     @GetMapping("/card/{cardId}")
-    public List<RewardRuleRecord> getByCard(@PathVariable Long cardId) {
-        return rewardRuleService.getRulesByCard(cardId);
+    public List<RewardRule> getRulesByCard(@PathVariable Long cardId) {
+        return rewardService.getRulesByCard(cardId);
+    }
+
+    @GetMapping("/active")
+    public List<RewardRule> getActiveRules() {
+        return rewardService.getActiveRules();
     }
 
     @GetMapping
-    public List<RewardRuleRecord> getAll() {
-        return rewardRuleService.getAllRules();
+    public List<RewardRule> getAllRules() {
+        return rewardService.getAllRules();
     }
 }
