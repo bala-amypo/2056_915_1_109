@@ -1,8 +1,6 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.RewardRule;
-import com.example.demo.exception.BadRequestException;
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.RewardRuleRepository;
 import com.example.demo.service.RewardRuleService;
 
@@ -19,7 +17,7 @@ public class RewardRuleServiceImpl implements RewardRuleService {
     @Override
     public RewardRule createRule(RewardRule rule) {
         if (rule.getMultiplier() <= 0) {
-            throw new BadRequestException("Price multiplier must be > 0");
+            throw new RuntimeException("Multiplier must be greater than 0");
         }
         return rewardRuleRepository.save(rule);
     }
@@ -27,7 +25,7 @@ public class RewardRuleServiceImpl implements RewardRuleService {
     @Override
     public RewardRule updateRule(Long id, RewardRule updated) {
         RewardRule rule = rewardRuleRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Rule not found"));
+                .orElseThrow(() -> new RuntimeException("Rule not found"));
 
         rule.setCategory(updated.getCategory());
         rule.setRewardType(updated.getRewardType());

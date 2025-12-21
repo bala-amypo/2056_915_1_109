@@ -1,7 +1,6 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.*;
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.*;
 import com.example.demo.service.RecommendationEngineService;
 
@@ -33,10 +32,10 @@ public class RecommendationEngineServiceImpl implements RecommendationEngineServ
     public RecommendationRecord generateRecommendation(Long intentId) {
 
         PurchaseIntentRecord intent = intentRepository.findById(intentId)
-                .orElseThrow(() -> new ResourceNotFoundException("Intent not found"));
+                .orElseThrow(() -> new RuntimeException("Intent not found"));
 
         userRepository.findById(intent.getUserId())
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         List<CreditCardRecord> cards =
                 cardRepository.findActiveCardsByUser(intent.getUserId());
@@ -64,7 +63,7 @@ public class RecommendationEngineServiceImpl implements RecommendationEngineServ
                 intentId,
                 bestCardId,
                 maxReward,
-                "{\"status\":\"calculated\"}"
+                "calculated"
         );
 
         return recommendationRepository.save(record);
@@ -73,7 +72,7 @@ public class RecommendationEngineServiceImpl implements RecommendationEngineServ
     @Override
     public RecommendationRecord getRecommendationById(Long id) {
         return recommendationRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Recommendation not found"));
+                .orElseThrow(() -> new RuntimeException("Recommendation not found"));
     }
 
     @Override

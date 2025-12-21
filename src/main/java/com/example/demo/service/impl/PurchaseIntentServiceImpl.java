@@ -1,8 +1,6 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.PurchaseIntentRecord;
-import com.example.demo.exception.BadRequestException;
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.PurchaseIntentRecordRepository;
 import com.example.demo.service.PurchaseIntentService;
 
@@ -19,7 +17,7 @@ public class PurchaseIntentServiceImpl implements PurchaseIntentService {
     @Override
     public PurchaseIntentRecord createIntent(PurchaseIntentRecord intent) {
         if (intent.getAmount() <= 0) {
-            throw new BadRequestException("Amount must be greater than 0");
+            throw new RuntimeException("Amount must be greater than 0");
         }
         return intentRepository.save(intent);
     }
@@ -27,7 +25,7 @@ public class PurchaseIntentServiceImpl implements PurchaseIntentService {
     @Override
     public PurchaseIntentRecord getIntentById(Long id) {
         return intentRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Intent not found"));
+                .orElseThrow(() -> new RuntimeException("Intent not found"));
     }
 
     @Override
