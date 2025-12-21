@@ -19,9 +19,9 @@ public class RewardRule {
     private Double multiplier;
     private Boolean active;
 
-    public RewardRuleRecord() {}
+    public RewardRule() {}
 
-    public RewardRuleRecord(Long id, Long cardId, String category,
+    public RewardRule(Long id, Long cardId, String category,
                       String rewardType, Double multiplier, Boolean active) {
         this.id = id;
         this.cardId = cardId;
