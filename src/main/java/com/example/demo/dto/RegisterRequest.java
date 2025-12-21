@@ -7,23 +7,56 @@ public class RegisterRequest {
     private String role;
     private String userId;
 
-    public String getFullName() { return fullName; }
+    // Default constructor
+    public RegisterRequest() {}
 
-    public void setFullName(String fullName) { this.fullName = fullName; }
+    // Parameterized constructor
+    public RegisterRequest(String fullName, String email, String password, String role, String userId) {
+        this.fullName = fullName;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.userId = userId;
+    }
 
-    public String getEmail() { return email; }
+    // Getters and Setters
+    public String getFullName() {
+        return fullName;
+    }
 
-    public void setEmail(String email) { this.email = email; }
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
 
-    public String getPassword() { return password; }
+    public String getEmail() {
+        return email;
+    }
 
-    public void setPassword(String password) { this.password = password; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public String getRole() { return role; }
+    public String getPassword() {
+        return password;
+    }
 
-    public void setRole(String role) { this.role = role; }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-    public String getUserId() { return userId; }
+    public String getRole() {
+        return role;
+    }
 
-    public void setUserId(String userId) { this.userId = userId; }
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 }
