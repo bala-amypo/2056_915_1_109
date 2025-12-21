@@ -1,13 +1,13 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.UserProfileRecord;
+import com.example.demo.entity.UserProfileRecord;   // 🔥 REQUIRED
 import com.example.demo.repository.UserProfileRecordRepository;
 import com.example.demo.service.UserProfileService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service  
+@Service
 public class UserProfileServiceImpl implements UserProfileService {
 
     private final UserProfileRecordRepository repository;
@@ -17,18 +17,18 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    public UserProfileService createUser(UserProfileService user) {
+    public UserProfileRecord createUser(UserProfileRecord user) {
         return repository.save(user);
     }
 
     @Override
-    public UserProfileService getUserById(Long id) {
+    public UserProfileRecord getUserById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     @Override
-    public List<UserProfileService> getAllUsers() {
+    public List<UserProfileRecord> getAllUsers() {
         return repository.findAll();
     }
 }
