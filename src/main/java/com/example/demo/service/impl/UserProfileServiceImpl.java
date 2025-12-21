@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service   // 🔥 THIS IS THE KEY
+@Service  
 public class UserProfileServiceImpl implements UserProfileService {
 
     private final UserProfileRecordRepository repository;
