@@ -1,40 +1,34 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.PurchaseIntentRecord;
-import com.example.demo.repository.PurchaseIntentRecordRepository;
+import com.example.demo.entity.PurchaseIntent;
+import com.example.demo.repository.PurchaseIntentRepository;
 import com.example.demo.service.PurchaseIntentService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service   // 🔥 THIS IS THE MOST IMPORTANT LINE
 public class PurchaseIntentServiceImpl implements PurchaseIntentService {
 
-    private final PurchaseIntentRecordRepository intentRepository;
+    private final PurchaseIntentRepository purchaseIntentRepository;
 
-    public PurchaseIntentServiceImpl(PurchaseIntentRecordRepository intentRepository) {
-        this.intentRepository = intentRepository;
+    public PurchaseIntentServiceImpl(PurchaseIntentRepository purchaseIntentRepository) {
+        this.purchaseIntentRepository = purchaseIntentRepository;
     }
 
     @Override
-    public PurchaseIntentRecord createIntent(PurchaseIntentRecord intent) {
-        if (intent.getAmount() <= 0) {
-            throw new RuntimeException("Amount must be greater than 0");
-        }
-        return intentRepository.save(intent);
+    public PurchaseIntent createPurchaseIntent(PurchaseIntent intent) {
+        return purchaseIntentRepository.save(intent);
     }
 
     @Override
-    public PurchaseIntentRecord getIntentById(Long id) {
-        return intentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Intent not found"));
+    public PurchaseIntent getPurchaseIntentById(Long id) {
+        return purchaseIntentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Purchase Intent not found"));
     }
 
     @Override
-    public List<PurchaseIntentRecord> getIntentsByUser(Long userId) {
-        return intentRepository.findByUserId(userId);
-    }
-
-    @Override
-    public List<PurchaseIntentRecord> getAllIntents() {
-        return intentRepository.findAll();
+    public List<PurchaseIntent> getAllPurchaseIntents() {
+        return purchaseIntentRepository.findAll();
     }
 }
