@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/intents")
+@RequestMapping("/purchase-intents")
 public class PurchaseIntentController {
 
     private final PurchaseIntentService intentService;
@@ -22,7 +22,7 @@ public class PurchaseIntentController {
     }
 
     @GetMapping("/{id}")
-    public PurchaseIntentRecord getIntent(@PathVariable Long id) {
+    public PurchaseIntentRecord getIntentById(@PathVariable Long id) {
         return intentService.getIntentById(id);
     }
 
