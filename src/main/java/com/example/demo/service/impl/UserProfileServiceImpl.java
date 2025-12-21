@@ -17,18 +17,18 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    public UserProfileRecord createUser(UserProfileRecord user) {
+    public UserProfileService createUser(UserProfileService user) {
         return repository.save(user);
     }
 
     @Override
-    public UserProfileRecord getUserById(Long id) {
+    public UserProfileService getUserById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     @Override
-    public List<UserProfileRecord> getAllUsers() {
+    public List<UserProfileService> getAllUsers() {
         return repository.findAll();
     }
 }
