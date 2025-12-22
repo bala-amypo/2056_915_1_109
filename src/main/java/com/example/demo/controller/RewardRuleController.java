@@ -19,9 +19,25 @@ public class RewardRuleController {
         return rewardRuleService.createRule(rule);
     }
 
+    @PutMapping("/{id}")
+    public RewardRule updateRule(@PathVariable Long id,
+                                 @RequestBody RewardRule rule) {
+        return rewardRuleService.updateRule(id, rule);
+    }
+
     @GetMapping("/{id}")
     public RewardRule getRuleById(@PathVariable Long id) {
-        return rewardRuleService.getRuleById(id);
+        return rewardRuleService.getRewardRuleById(id);
+    }
+
+    @GetMapping("/card/{cardId}")
+    public List<RewardRule> getRulesByCard(@PathVariable Long cardId) {
+        return rewardRuleService.getRulesByCard(cardId);
+    }
+
+    @GetMapping("/active")
+    public List<RewardRule> getActiveRules() {
+        return rewardRuleService.getActiveRules();
     }
 
     @GetMapping
