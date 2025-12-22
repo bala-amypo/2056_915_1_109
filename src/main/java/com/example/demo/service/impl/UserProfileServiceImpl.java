@@ -14,7 +14,6 @@ public class UserProfileServiceImpl implements UserProfileService {
     private final UserProfileRepository userProfileRepository;
     private final PasswordEncoder passwordEncoder;
 
-    // ⚠️ Constructor order is IMPORTANT
     public UserProfileServiceImpl(UserProfileRepository userProfileRepository,
                                   PasswordEncoder passwordEncoder) {
         this.userProfileRepository = userProfileRepository;
