@@ -3,7 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.RecommendationRecord;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.RecommendationRecordRepository;
-import com.example.demo.service.RecommendationEngine;
+import com.example.demo.service.RecommendationEngineService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
