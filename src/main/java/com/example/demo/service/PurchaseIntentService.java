@@ -5,7 +5,6 @@ import com.example.demo.entity.PurchaseIntentRecord;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
-@Service
 public interface PurchaseIntentService {
 
     PurchaseIntentRecord createIntent(PurchaseIntentRecord intent);
