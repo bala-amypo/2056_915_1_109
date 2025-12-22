@@ -1,0 +1,88 @@
+package com.example.demo.entity;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(
+    name = "reward_rules",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"cardId", "category"})
+)
+public class RewardRule {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private Long cardId;
+
+    private String category;
+
+    private String rewardType;
+
+    private Double multiplier;
+
+    private Boolean active;
+
+    public RewardRule() {
+    }
+
+    public RewardRule(Long id, Long cardId, String category,
+                      String rewardType, Double multiplier, Boolean active) {
+        this.id = id;
+        this.cardId = cardId;
+        this.category = category;
+        this.rewardType = rewardType;
+        this.multiplier = multiplier;
+        this.active = active;
+    }
+
+    // Getters and Setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getCardId() {
+        return cardId;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public String getRewardType() {
+        return rewardType;
+    }
+
+    public Double getMultiplier() {
+        return multiplier;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setCardId(Long cardId) {
+        this.cardId = cardId;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setRewardType(String rewardType) {
+        this.rewardType = rewardType;
+    }
+
+    public void setMultiplier(Double multiplier) {
+        this.multiplier = multiplier;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+}
