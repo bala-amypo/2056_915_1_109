@@ -35,10 +35,20 @@ public class RewardRuleServiceImpl implements RewardRuleService {
     }
 
     @Override
+    public List<RewardRule> getRulesByCard(Long cardId) {
+        return repository.findByCardId(cardId);
+    }
+
+    @Override
+    public List<RewardRule> getActiveRules() {
+        return repository.findByActiveTrue();
+    }
+
+    @Override
     public RewardRule updateRule(Long id, RewardRule rule) {
         RewardRule existing = getRewardRuleById(id);
-        existing.setRuleName(rule.getRuleName());
-        existing.setDescription(rule.getDescription());
+        existing.setName(rule.getName());
+        existing.setActive(rule.isActive());
         return repository.save(existing);
     }
 

@@ -10,6 +10,10 @@ public interface RewardRuleService {
     RewardRule getRewardRuleById(Long id);
 
     List<RewardRule> getAllRules();
+    
+    List<RewardRule> getRulesByCard(Long cardId);   
+
+    List<RewardRule> getActiveRules();       
 
     RewardRule updateRule(Long id, RewardRule rule);
 
