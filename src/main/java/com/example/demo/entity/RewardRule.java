@@ -3,10 +3,7 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(
-    name = "reward_rules",
-    uniqueConstraints = @UniqueConstraint(columnNames = {"cardId", "category"})
-)
+@Table(name = "reward_rule")
 public class RewardRule {
 
     @Id
@@ -15,71 +12,56 @@ public class RewardRule {
 
     private Long cardId;
 
-    private String category;
+    private String ruleType;
 
-    private String rewardType;
-
-    private Double multiplier;
+    private Integer rewardValue;
 
     private Boolean active;
 
     public RewardRule() {
     }
 
-    public RewardRule(Long id, Long cardId, String category,
-                      String rewardType, Double multiplier, Boolean active) {
-        this.id = id;
+    public RewardRule(Long cardId, String ruleType, Integer rewardValue, Boolean active) {
         this.cardId = cardId;
-        this.category = category;
-        this.rewardType = rewardType;
-        this.multiplier = multiplier;
+        this.ruleType = ruleType;
+        this.rewardValue = rewardValue;
         this.active = active;
     }
 
-    // Getters and Setters
-
     public Long getId() {
         return id;
-    }
-
-    public Long getCardId() {
-        return cardId;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public String getRewardType() {
-        return rewardType;
-    }
-
-    public Double getMultiplier() {
-        return multiplier;
-    }
-
-    public Boolean getActive() {
-        return active;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
+    public Long getCardId() {
+        return cardId;
+    }
+
     public void setCardId(Long cardId) {
         this.cardId = cardId;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public String getRuleType() {
+        return ruleType;
     }
 
-    public void setRewardType(String rewardType) {
-        this.rewardType = rewardType;
+    public void setRuleType(String ruleType) {
+        this.ruleType = ruleType;
     }
 
-    public void setMultiplier(Double multiplier) {
-        this.multiplier = multiplier;
+    public Integer getRewardValue() {
+        return rewardValue;
+    }
+
+    public void setRewardValue(Integer rewardValue) {
+        this.rewardValue = rewardValue;
+    }
+
+    public Boolean getActive() {
+        return active;
     }
 
     public void setActive(Boolean active) {
