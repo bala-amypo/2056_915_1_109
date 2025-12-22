@@ -1,18 +1,31 @@
-package com.example.demo.service;
+package com.example.demo.controller;
 
 import com.example.demo.entity.RewardRule;
+import com.example.demo.service.RewardRuleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-public interface RewardRuleService {
+@RestController
+@RequestMapping("/api/reward-rules")
+public class RewardRuleController {
 
-    RewardRule createRule(RewardRule rule);
+    @Autowired
+    private RewardRuleService rewardRuleService;
 
-    RewardRule updateRule(Long id, RewardRule updated);
+    @PostMapping
+    public RewardRule createRule(@RequestBody RewardRule rule) {
+        return rewardRuleService.createRule(rule);
+    }
 
-    List<RewardRule> getRulesByCard(Long cardId);
+    @GetMapping("/{id}")
+    public RewardRule getRewardRuleById(@PathVariable Long id) {
+        return rewardRuleService.getRewardRuleById(id);
+    }
 
-    List<RewardRule> getActiveRules();
-
-    List<RewardRule> getAllRules();
+    @GetMapping
+    public List<RewardRule> getAllRules() {
+        return rewardRuleService.getAllRules();
+    }
 }

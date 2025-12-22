@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.PurchaseIntent;
+import com.example.demo.entity.PurchaseIntentRecord;
 import com.example.demo.service.PurchaseIntentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,17 +15,17 @@ public class PurchaseIntentController {
     private PurchaseIntentService purchaseIntentService;
 
     @PostMapping
-    public PurchaseIntent createIntent(@RequestBody PurchaseIntent intent) {
+    public PurchaseIntentRecord createIntent(@RequestBody PurchaseIntentRecord intent) {
         return purchaseIntentService.createIntent(intent);
     }
 
     @GetMapping("/{id}")
-    public PurchaseIntent getIntentById(@PathVariable Long id) {
+    public PurchaseIntentRecord getIntentById(@PathVariable Long id) {
         return purchaseIntentService.getIntentById(id);
     }
 
     @GetMapping
-    public List<PurchaseIntent> getAllIntents() {
+    public List<PurchaseIntentRecord> getAllIntents() {
         return purchaseIntentService.getAllIntents();
     }
 }
