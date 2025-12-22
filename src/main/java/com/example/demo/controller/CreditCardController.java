@@ -11,6 +11,7 @@ import java.util.List;
 @RequestMapping("/api/cards")
 public class CreditCardController {
 
+@Autowired
     private final CreditCardService creditCardService;
 
     public CreditCardController(CreditCardService creditCardService) {
