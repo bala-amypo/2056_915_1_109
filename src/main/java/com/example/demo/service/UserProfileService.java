@@ -1,20 +1,51 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
-import com.example.demo.entity.UserProfile;
+import com.example.demo.entity.CreditCardRecord;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.repository.CreditCardRecordRepository;
+import com.example.demo.service.CreditCardService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface UserProfileService {
+@Service
+public class CreditCardServiceImpl implements CreditCardService {
 
-    UserProfile createUser(UserProfile profile);
+    private final CreditCardRecordRepository creditCardRepository;
 
-    UserProfile getUserById(Long id);
+    public CreditCardServiceImpl(CreditCardRecordRepository creditCardRepository) {
+        this.creditCardRepository = creditCardRepository;
+    }
 
-    UserProfile findByUserId(String userId);
+    @Override
+    public CreditCardRecord addCard(CreditCardRecord card) {
+        return creditCardRepository.save(card);
+    }
 
-    UserProfile findByEmail(String email);
+    @Override
+    public CreditCardRecord updateCard(Long id, CreditCardRecord updated) {
+        CreditCardRecord existing = getCardById(id);
+        existing.setCardName(updated.getCardName());
+        existing.setIssuer(updated.getIssuer());
+        existing.setCardType(updated.getCardType());
+        existing.setAnnualFee(updated.getAnnualFee());
+        existing.setStatus(updated.getStatus());
+        return creditCardRepository.save(existing);
+    }
 
-    List<UserProfile> getAllUsers();
+    @Override
+    public List<CreditCardRecord> getCardsByUser(Long userId) {
+        return creditCardRepository.findByUserId(userId);
+    }
 
-    UserProfile updateUserStatus(Long id, boolean active);
+    @Override
+    public CreditCardRecord getCardById(Long id) {
+        return creditCardRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Card not found"));
+    }
+
+    @Override
+    public List<CreditCardRecord> getAllCards() {
+        return creditCardRepository.findAll();
+    }
 }
