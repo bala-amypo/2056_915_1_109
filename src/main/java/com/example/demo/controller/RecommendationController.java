@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/recommendation")
-public class Recommendation {
+public class RecommendationController {
 
     @Autowired
     private RecommendationEngine recommendationEngine;
@@ -26,8 +26,7 @@ public class Recommendation {
     }
 
     @GetMapping("/user/{userId}")
-    public List<RecommendationRecord> getByUser(
-            @PathVariable Long userId) {
+    public List<RecommendationRecord> getByUser(@PathVariable Long userId) {
         return recommendationEngine.getRecommendationsByUser(userId);
     }
 

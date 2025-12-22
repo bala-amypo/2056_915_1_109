@@ -1,10 +1,9 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.RecommendationRecord;
-
 import java.util.List;
 
-public interface RecommendationEngineService {
+public interface RecommendationEngine {
 
     RecommendationRecord createRecommendation(RecommendationRecord record);
 

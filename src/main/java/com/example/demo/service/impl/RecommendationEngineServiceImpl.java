@@ -3,45 +3,44 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.RecommendationRecord;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.RecommendationRecordRepository;
-import com.example.demo.service.RecommendationEngineService;
+import com.example.demo.service.RecommendationEngine;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class RecommendationEngineServiceImpl implements RecommendationEngineService {
+public class RecommendationEngineImpl implements RecommendationEngine {
 
-    private final RecommendationRecordRepository recommendationRecordRepository;
+    private final RecommendationRecordRepository repository;
 
-    public RecommendationEngineServiceImpl(
-            RecommendationRecordRepository recommendationRecordRepository) {
-        this.recommendationRecordRepository = recommendationRecordRepository;
+    public RecommendationEngineImpl(RecommendationRecordRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public RecommendationRecord createRecommendation(RecommendationRecord record) {
-        return recommendationRecordRepository.save(record);
+        return repository.save(record);
     }
 
     @Override
     public RecommendationRecord getRecommendationById(Long id) {
-        return recommendationRecordRepository.findById(id)
+        return repository.findById(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Recommendation not found"));
     }
 
     @Override
     public List<RecommendationRecord> getRecommendationsByUser(Long userId) {
-        return recommendationRecordRepository.findByUserId(userId);
+        return repository.findByUserId(userId);
     }
 
     @Override
     public List<RecommendationRecord> getActiveRecommendations() {
-        return recommendationRecordRepository.findByActiveTrue();
+        return repository.findByActiveTrue();
     }
 
     @Override
     public List<RecommendationRecord> getAllRecommendations() {
-        return recommendationRecordRepository.findAll();
+        return repository.findAll();
     }
 }
