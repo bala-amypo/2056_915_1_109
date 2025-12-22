@@ -3,8 +3,8 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "recommendations")
-public class Recommendation {
+@Table(name = "recommendation_records")
+public class RecommendationRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,10 +15,10 @@ public class Recommendation {
     private String reason;
     private Boolean active;
 
-    public Recommendation() {
+    public RecommendationRecord() {
     }
 
-    public Recommendation(Long userId, String cardName, String reason, Boolean active) {
+    public RecommendationRecord(Long userId, String cardName, String reason, Boolean active) {
         this.userId = userId;
         this.cardName = cardName;
         this.reason = reason;
