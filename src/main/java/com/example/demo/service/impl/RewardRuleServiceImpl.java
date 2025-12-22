@@ -11,49 +11,56 @@ import java.util.List;
 @Service
 public class RewardRuleServiceImpl implements RewardRuleService {
 
-    private final RewardRuleRepository repository;
+    private final RewardRuleRepository rewardRuleRepository;
 
-    public RewardRuleServiceImpl(RewardRuleRepository repository) {
-        this.repository = repository;
+    public RewardRuleServiceImpl(RewardRuleRepository rewardRuleRepository) {
+        this.rewardRuleRepository = rewardRuleRepository;
     }
 
     @Override
     public RewardRule createRule(RewardRule rule) {
-        return repository.save(rule);
+        return rewardRuleRepository.save(rule);
     }
 
     @Override
     public RewardRule getRewardRuleById(Long id) {
-        return repository.findById(id)
+        return rewardRuleRepository.findById(id)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Reward rule not found"));
+                        new ResourceNotFoundException("Reward rule not found with id " + id));
     }
 
     @Override
     public List<RewardRule> getAllRules() {
-        return repository.findAll();
+        return rewardRuleRepository.findAll();
     }
 
     @Override
     public List<RewardRule> getRulesByCard(Long cardId) {
-        return repository.findByCardId(cardId);
+        return rewardRuleRepository.findByCardId(cardId);
     }
 
     @Override
     public List<RewardRule> getActiveRules() {
-        return repository.findByActiveTrue();
+        return rewardRuleRepository.findByActiveTrue();
     }
 
     @Override
     public RewardRule updateRule(Long id, RewardRule rule) {
+
         RewardRule existing = getRewardRuleById(id);
-        existing.setName(rule.getName());
-        existing.setActive(rule.isActive());
-        return repository.save(existing);
+
+        existing.setCardId(rule.getCardId());
+        existing.setRuleType(rule.getRuleType());
+        existing.setRewardValue(rule.getRewardValue());
+        existing.setActive(rule.getActive());
+
+        return rewardRuleRepository.save(existing);
     }
 
     @Override
     public void deleteRule(Long id) {
-        repository.deleteById(id);
+
+        RewardRule existing = getRewardRuleById(id);
+        rewardRuleRepository.delete(existing);
     }
 }
