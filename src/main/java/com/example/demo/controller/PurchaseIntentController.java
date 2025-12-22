@@ -1,41 +1,31 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.PurchaseIntentRecord;
+import com.example.demo.entity.PurchaseIntent;
 import com.example.demo.service.PurchaseIntentService;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/intents")
+@RequestMapping("/api/purchase-intents")
 public class PurchaseIntentController {
 
-    private final PurchaseIntentService intentService;
-
-    public PurchaseIntentController(PurchaseIntentService intentService) {
-        this.intentService = intentService;
-    }
+    @Autowired
+    private PurchaseIntentService purchaseIntentService;
 
     @PostMapping
-    public ResponseEntity<PurchaseIntentRecord> createIntent(
-            @RequestBody PurchaseIntentRecord intent) {
-        return ResponseEntity.ok(intentService.createIntent(intent));
-    }
-
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<PurchaseIntentRecord>> getIntentsByUser(
-            @PathVariable Long userId) {
-        return ResponseEntity.ok(intentService.getIntentsByUser(userId));
+    public PurchaseIntent createIntent(@RequestBody PurchaseIntent intent) {
+        return purchaseIntentService.createIntent(intent);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PurchaseIntentRecord> getIntentById(@PathVariable Long id) {
-        return ResponseEntity.ok(intentService.getIntentById(id));
+    public PurchaseIntent getIntentById(@PathVariable Long id) {
+        return purchaseIntentService.getIntentById(id);
     }
 
     @GetMapping
-    public ResponseEntity<List<PurchaseIntentRecord>> getAllIntents() {
-        return ResponseEntity.ok(intentService.getAllIntents());
+    public List<PurchaseIntent> getAllIntents() {
+        return purchaseIntentService.getAllIntents();
     }
 }

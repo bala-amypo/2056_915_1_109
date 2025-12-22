@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.UserProfile;
 import com.example.demo.service.UserProfileService;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,35 +11,21 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserProfileController {
 
-    private final UserProfileService userProfileService;
-
-    public UserProfileController(UserProfileService userProfileService) {
-        this.userProfileService = userProfileService;
-    }
+    @Autowired
+    private UserProfileService userProfileService;
 
     @PostMapping
-    public ResponseEntity<UserProfile> createUser(@RequestBody UserProfile userProfile) {
-        return ResponseEntity.ok(userProfileService.createUser(userProfile));
+    public UserProfile createUser(@RequestBody UserProfile user) {
+        return userProfileService.createUser(user);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserProfile> getUserById(@PathVariable Long id) {
-        return ResponseEntity.ok(userProfileService.getUserById(id));
+    public UserProfile getUserById(@PathVariable Long id) {
+        return userProfileService.getUserById(id);
     }
 
     @GetMapping
-    public ResponseEntity<List<UserProfile>> getAllUsers() {
-        return ResponseEntity.ok(userProfileService.getAllUsers());
-    }
-
-    @PutMapping("/{id}/status")
-    public ResponseEntity<UserProfile> updateStatus(@PathVariable Long id,
-                                                    @RequestParam boolean active) {
-        return ResponseEntity.ok(userProfileService.updateUserStatus(id, active));
-    }
-
-    @GetMapping("/lookup/{userId}")
-    public ResponseEntity<UserProfile> getByUserId(@PathVariable String userId) {
-        return ResponseEntity.ok(userProfileService.findByUserId(userId));
+    public List<UserProfile> getAllUsers() {
+        return userProfileService.getAllUsers();
     }
 }

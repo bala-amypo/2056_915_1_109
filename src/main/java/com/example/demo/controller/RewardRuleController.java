@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.RewardRule;
 import com.example.demo.service.RewardRuleService;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,35 +11,21 @@ import java.util.List;
 @RequestMapping("/api/reward-rules")
 public class RewardRuleController {
 
-    private final RewardRuleService rewardRuleService;
-
-    public RewardRuleController(RewardRuleService rewardRuleService) {
-        this.rewardRuleService = rewardRuleService;
-    }
+    @Autowired
+    private RewardRuleService rewardRuleService;
 
     @PostMapping
-    public ResponseEntity<RewardRule> createRule(@RequestBody RewardRule rule) {
-        return ResponseEntity.ok(rewardRuleService.createRule(rule));
+    public RewardRule createRule(@RequestBody RewardRule rule) {
+        return rewardRuleService.createRule(rule);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<RewardRule> updateRule(@PathVariable Long id,
-                                                 @RequestBody RewardRule rule) {
-        return ResponseEntity.ok(rewardRuleService.updateRule(id, rule));
-    }
-
-    @GetMapping("/card/{cardId}")
-    public ResponseEntity<List<RewardRule>> getRulesByCard(@PathVariable Long cardId) {
-        return ResponseEntity.ok(rewardRuleService.getRulesByCard(cardId));
-    }
-
-    @GetMapping("/active")
-    public ResponseEntity<List<RewardRule>> getActiveRules() {
-        return ResponseEntity.ok(rewardRuleService.getActiveRules());
+    @GetMapping("/{id}")
+    public RewardRule getRuleById(@PathVariable Long id) {
+        return rewardRuleService.getRuleById(id);
     }
 
     @GetMapping
-    public ResponseEntity<List<RewardRule>> getAllRules() {
-        return ResponseEntity.ok(rewardRuleService.getAllRules());
+    public List<RewardRule> getAllRules() {
+        return rewardRuleService.getAllRules();
     }
 }
