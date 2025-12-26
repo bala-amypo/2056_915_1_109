@@ -1,3 +1,4 @@
+
 package com.example.demo.controller;
 
 import com.example.demo.service.UserProfileService;
@@ -11,4 +12,3 @@ public class UserProfileController {
         this.userService = userService;
     }
 }
-

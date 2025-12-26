@@ -1,20 +1,21 @@
-package com.example.demo;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+package com.example.demo.dto;
 
-@SpringBootApplication
-public class DemoApplication {
+public class JwtResponse {
+    private String token;
+    private String type = "Bearer";
+    private Long userId;
+    private String email;
+    private String role;
 
-    public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-    }
+    public String getToken() { return token; }
+    public void setToken(String token) { this.token = token; }
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
 }
