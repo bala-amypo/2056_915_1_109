@@ -1,51 +1,20 @@
-package com.example.demo.dto;
+package com.example.demo;
 
-public class JwtResponse {
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-    private String token;
-    private Long userId;
-    private String email;
-    private String role;
+@SpringBootApplication
+public class DemoApplication {
 
-    public JwtResponse() {
-    }
-
-    public JwtResponse(String token, Long userId, String email, String role) {
-        this.token = token;
-        this.userId = userId;
-        this.email = email;
-        this.role = role;
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
     }
 
-    public String getToken() {
-        return token;
-    }
- 
-    public void setToken(String token) {
-        this.token = token;
-    }
- 
-    public Long getUserId() {
-        return userId;
-    }
- 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
- 
-    public String getEmail() {
-        return email;
-    }
- 
-    public void setEmail(String email) {
-        this.email = email;
-    }
- 
-    public String getRole() {
-        return role;
-    }
- 
-    public void setRole(String role) {
-        this.role = role;
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
     }
 }
