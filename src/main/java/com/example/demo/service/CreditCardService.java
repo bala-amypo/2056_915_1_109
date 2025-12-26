@@ -1,18 +1,46 @@
-package com.example.demo.service;
 
+package com.example.demo.service.impl;
+
+import com.example.demo.service.CreditCardService;
+import com.example.demo.repository.CreditCardRecordRepository;
 import com.example.demo.entity.CreditCardRecord;
-
+import com.example.demo.exception.ResourceNotFoundException;
+import org.springframework.stereotype.Service;
 import java.util.List;
 
-public interface CreditCardService {
+@Service
+public class CreditCardServiceImpl implements CreditCardService {
+    private final CreditCardRecordRepository creditCardRepository;
 
-    CreditCardRecord addCard(CreditCardRecord card);
+    public CreditCardServiceImpl(CreditCardRecordRepository creditCardRepository) {
+        this.creditCardRepository = creditCardRepository;
+    }
 
-    CreditCardRecord updateCard(Long id, CreditCardRecord updated);
+    @Override
+    public CreditCardRecord addCard(CreditCardRecord card) {
+        return creditCardRepository.save(card);
+    }
 
-    CreditCardRecord getCardById(Long id);
+    @Override
+    public CreditCardRecord updateCard(Long id, CreditCardRecord updated) {
+        CreditCardRecord existing = getCardById(id);
+        updated.setId(id);
+        return creditCardRepository.save(updated);
+    }
 
-    List<CreditCardRecord> getCardsByUser(Long userId);
+    @Override
+    public List<CreditCardRecord> getCardsByUser(Long userId) {
+        return creditCardRepository.findByUserId(userId);
+    }
 
-    List<CreditCardRecord> getAllCards();
+    @Override
+    public CreditCardRecord getCardById(Long id) {
+        return creditCardRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Card not found"));
+    }
+
+    @Override
+    public List<CreditCardRecord> getAllCards() {
+        return creditCardRepository.findAll();
+    }
 }
