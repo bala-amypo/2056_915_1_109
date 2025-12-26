@@ -88,4 +88,3 @@ public class RecommendationEngineServiceImpl implements RecommendationEngineServ
         return recommendationRecordRepository.findAll();
     }
 }
-

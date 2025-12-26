@@ -50,4 +50,3 @@ public class RewardRuleServiceImpl implements RewardRuleService {
         return rewardRuleRepository.findAll();
     }
 }
-

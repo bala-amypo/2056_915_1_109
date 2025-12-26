@@ -64,4 +64,3 @@ public class UserProfileServiceImpl implements UserProfileService {
         return userProfileRepository.save(user);
     }
 }
-

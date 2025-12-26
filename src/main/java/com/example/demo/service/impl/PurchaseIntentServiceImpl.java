@@ -37,4 +37,3 @@ public class PurchaseIntentServiceImpl implements PurchaseIntentService {
         return purchaseIntentRepository.findAll();
     }
 }
-
