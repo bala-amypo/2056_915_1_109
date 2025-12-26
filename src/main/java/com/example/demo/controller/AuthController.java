@@ -1,42 +1,56 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.JwtResponse;
-import com.example.demo.dto.LoginRequest;
-import com.example.demo.dto.RegisterRequest;
-import com.example.demo.entity.UserProfile;
-import com.example.demo.repository.UserProfileRepository;
-
 import com.example.demo.service.UserProfileService;
+import com.example.demo.repository.UserProfileRepository;
+import com.example.demo.security.JwtUtil;
+import com.example.demo.security.AuthenticationManager;
+import com.example.demo.security.UsernamePasswordAuthenticationToken;
+import com.example.demo.security.Authentication;
+import com.example.demo.dto.*;
+import com.example.demo.entity.UserProfile;
+import com.example.demo.exception.BadRequestException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import java.util.UUID;
 
 @RestController
+@RequestMapping("/auth")
 public class AuthController {
-    
     private final UserProfileService userService;
     private final UserProfileRepository userRepository;
     private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
     
-    public AuthController(UserProfileService userService, UserProfileRepository userRepository,
-                         AuthenticationManager authenticationManager) {
+    public AuthController(UserProfileService userService, UserProfileRepository userRepository, 
+                         AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
     }
     
-    public ResponseEntity<JwtResponse> register(RegisterRequest request) {
+    @PostMapping("/register")
+    public ResponseEntity<JwtResponse> register(@RequestBody RegisterRequest request) {
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new BadRequestException("Email already exists");
+        }
+        
+        String userId = request.getUserId() != null ? request.getUserId() : UUID.randomUUID().toString();
+        if (userRepository.existsByUserId(userId)) {
+            throw new BadRequestException("User ID already exists");
+        }
+        
         UserProfile user = new UserProfile();
+        user.setUserId(userId);
         user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
-        user.setRole(request.getRole());
+        user.setRole(request.getRole() != null ? request.getRole() : "USER");
         user.setActive(true);
         
         UserProfile saved = userService.createUser(user);
         
-        String token = "jwt-token-" + saved.getId();
+        String token = jwtUtil.generateToken(saved.getId(), saved.getEmail(), saved.getRole());
         
         JwtResponse response = new JwtResponse();
         response.setToken(token);
@@ -47,14 +61,20 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
     
-    public ResponseEntity<JwtResponse> login(LoginRequest request) {
-        authenticationManager.authenticate(
+    @PostMapping("/login")
+    public ResponseEntity<JwtResponse> login(@RequestBody LoginRequest request) {
+        Authentication auth = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
         
-        UserProfile user = userRepository.findByEmail(request.getEmail()).orElse(null);
+        UserProfile user = userRepository.findByEmail(request.getEmail())
+            .orElseThrow(() -> new BadRequestException("User not found"));
+            
+        if (!Boolean.TRUE.equals(user.getActive())) {
+            throw new BadRequestException("User account is inactive");
+        }
         
-        String token = "jwt-token-" + user.getId();
+        String token = jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole());
         
         JwtResponse response = new JwtResponse();
         response.setToken(token);
