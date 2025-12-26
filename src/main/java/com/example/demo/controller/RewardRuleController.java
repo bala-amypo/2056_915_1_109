@@ -11,4 +11,4 @@ public class RewardRuleController {
         this.ruleService = ruleService;
     }
 }
-----------------------------------------
+

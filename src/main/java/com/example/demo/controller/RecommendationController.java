@@ -1,4 +1,4 @@
----------------------------
+
 package com.example.demo.controller;
 
 import com.example.demo.service.RecommendationEngineService;
@@ -12,4 +12,4 @@ public class RecommendationController {
         this.recommendationService = recommendationService;
     }
 }
--------------------------------------
+
