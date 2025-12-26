@@ -1,62 +1,55 @@
+
 package com.example.demo.service.impl;
 
+import com.example.demo.service.UserProfileService;
+import com.example.demo.repository.UserProfileRepository;
 import com.example.demo.entity.UserProfile;
 import com.example.demo.exception.BadRequestException;
 import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.repository.UserProfileRepository;
-import com.example.demo.service.UserProfileService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserProfileServiceImpl implements UserProfileService {
-
     private final UserProfileRepository userProfileRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public UserProfileServiceImpl(UserProfileRepository userProfileRepository,
-                                  PasswordEncoder passwordEncoder) {
+    public UserProfileServiceImpl(UserProfileRepository userProfileRepository) {
         this.userProfileRepository = userProfileRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public UserProfile createUser(UserProfile profile) {
-
-        if (userProfileRepository.existsByUserId(profile.getUserId())) {
-            throw new BadRequestException("UserId already exists");
-        }
-
         if (userProfileRepository.existsByEmail(profile.getEmail())) {
             throw new BadRequestException("Email already exists");
         }
-
-        profile.setPassword(passwordEncoder.encode(profile.getPassword()));
-        profile.setActive(true);
-
+        if (profile.getUserId() != null && userProfileRepository.existsByUserId(profile.getUserId())) {
+            throw new BadRequestException("User ID already exists");
+        }
+        if (profile.getUserId() == null) {
+            profile.setUserId(UUID.randomUUID().toString());
+        }
         return userProfileRepository.save(profile);
     }
 
     @Override
     public UserProfile getUserById(Long id) {
         return userProfileRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
     @Override
     public UserProfile findByUserId(String userId) {
-        return userProfileRepository.findAll()
-                .stream()
-                .filter(u -> userId.equals(u.getUserId()))
-                .findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        return userProfileRepository.findAll().stream()
+            .filter(u -> userId.equals(u.getUserId()))
+            .findFirst()
+            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
     @Override
     public UserProfile findByEmail(String email) {
         return userProfileRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
     @Override
@@ -71,3 +64,4 @@ public class UserProfileServiceImpl implements UserProfileService {
         return userProfileRepository.save(user);
     }
 }
+
