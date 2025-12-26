@@ -1,11 +1,10 @@
+controller: 
+
 package com.example.demo.controller;
 
 import com.example.demo.service.UserProfileService;
 import com.example.demo.repository.UserProfileRepository;
 import com.example.demo.security.JwtUtil;
-import com.example.demo.security.AuthenticationManager;
-import com.example.demo.security.UsernamePasswordAuthenticationToken;
-import com.example.demo.security.Authentication;
 import com.example.demo.dto.*;
 import com.example.demo.entity.UserProfile;
 import com.example.demo.exception.BadRequestException;
@@ -18,14 +17,11 @@ import java.util.UUID;
 public class AuthController {
     private final UserProfileService userService;
     private final UserProfileRepository userRepository;
-    private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
     
-    public AuthController(UserProfileService userService, UserProfileRepository userRepository, 
-                         AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
+    public AuthController(UserProfileService userService, UserProfileRepository userRepository, JwtUtil jwtUtil) {
         this.userService = userService;
         this.userRepository = userRepository;
-        this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
     }
     
@@ -63,12 +59,12 @@ public class AuthController {
     
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody LoginRequest request) {
-        Authentication auth = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
-        );
-        
         UserProfile user = userRepository.findByEmail(request.getEmail())
             .orElseThrow(() -> new BadRequestException("User not found"));
+            
+        if (!user.getPassword().equals(request.getPassword())) {
+            throw new BadRequestException("Invalid credentials");
+        }
             
         if (!Boolean.TRUE.equals(user.getActive())) {
             throw new BadRequestException("User account is inactive");

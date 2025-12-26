@@ -12,4 +12,3 @@ public class RecommendationController {
         this.recommendationService = recommendationService;
     }
 }
-
