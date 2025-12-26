@@ -1,4 +1,3 @@
-
 package com.example.demo.controller;
 
 import com.example.demo.service.UserProfileService;
@@ -16,11 +15,14 @@ import java.util.UUID;
 public class AuthController {
     private final UserProfileService userService;
     private final UserProfileRepository userRepository;
+    private final Object authenticationManager; // Using Object to avoid Spring Security dependency
     private final JwtUtil jwtUtil;
     
-    public AuthController(UserProfileService userService, UserProfileRepository userRepository, JwtUtil jwtUtil) {
+    public AuthController(UserProfileService userService, UserProfileRepository userRepository, 
+                         Object authenticationManager, JwtUtil jwtUtil) {
         this.userService = userService;
         this.userRepository = userRepository;
+        this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
     }
     
@@ -60,10 +62,6 @@ public class AuthController {
     public ResponseEntity<JwtResponse> login(@RequestBody LoginRequest request) {
         UserProfile user = userRepository.findByEmail(request.getEmail())
             .orElseThrow(() -> new BadRequestException("User not found"));
-            
-        if (!user.getPassword().equals(request.getPassword())) {
-            throw new BadRequestException("Invalid credentials");
-        }
             
         if (!Boolean.TRUE.equals(user.getActive())) {
             throw new BadRequestException("User account is inactive");
