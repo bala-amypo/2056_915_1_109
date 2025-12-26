@@ -1,8 +1,6 @@
 package com.example.demo.security;
 
 import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
 
 public class JwtUtil {
     private final byte[] secret;
@@ -14,7 +12,6 @@ public class JwtUtil {
     }
 
     public String generateToken(Long userId, String email, String role) {
-        // Simple token format for testing: userId:email:role encoded in base64
         String payload = userId + ":" + email + ":" + role;
         return Base64.getEncoder().encodeToString(payload.getBytes());
     }
