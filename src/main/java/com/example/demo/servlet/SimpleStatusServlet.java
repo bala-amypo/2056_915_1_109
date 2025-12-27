@@ -1,4 +1,3 @@
-servlet
 
 package com.example.demo;
 
