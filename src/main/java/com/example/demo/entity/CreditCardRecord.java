@@ -1,15 +1,15 @@
+
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "credit_card_records")
+@Table(name = "cards")
 public class CreditCardRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
     private Long userId;
     private String cardName;
     private String issuer;
@@ -23,6 +23,7 @@ public class CreditCardRecord {
         this.createdAt = LocalDateTime.now();
     }
 
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public Long getUserId() { return userId; }
@@ -38,5 +39,4 @@ public class CreditCardRecord {
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
     public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }

@@ -5,18 +5,18 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "purchase_intent_records")
+@Table(name = "purchase_intents")
 public class PurchaseIntentRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
     private Long userId;
     private Double amount;
     private String category;
     private String merchant;
     private LocalDateTime intentDate;
 
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public Long getUserId() { return userId; }
