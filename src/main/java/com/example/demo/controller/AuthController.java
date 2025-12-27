@@ -15,7 +15,7 @@ import java.util.UUID;
 public class AuthController {
     private final UserProfileService userService;
     private final UserProfileRepository userRepository;
-    private final Object authenticationManager; // Using Object to avoid Spring Security dependency
+    private final Object authenticationManager; 
     private final JwtUtil jwtUtil;
     
     public AuthController(UserProfileService userService, UserProfileRepository userRepository, 
