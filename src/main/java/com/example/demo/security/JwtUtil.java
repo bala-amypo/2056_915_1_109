@@ -1,5 +1,3 @@
-
-
 package com.example.demo.security;
 
 import io.jsonwebtoken.Claims;
@@ -9,6 +7,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
@@ -18,11 +17,18 @@ public class JwtUtil {
     private final Key key;
     private final long expirationMs;
 
-    // Use @Value to inject properties into the specific constructor required by tests
-    public JwtUtil(
-            @Value("${app.jwt.secret}") byte[] secret, 
-            @Value("${app.jwt.expiration-ms}") Long expirationMs) {
+    // ✅ Constructor REQUIRED by test cases
+    public JwtUtil(byte[] secret, Long expirationMs) {
         this.key = Keys.hmacShaKeyFor(secret);
+        this.expirationMs = expirationMs;
+    }
+
+    // ✅ Constructor used by Spring at runtime
+    public JwtUtil(
+            @Value("${app.jwt.secret}") String secret,
+            @Value("${app.jwt.expiration-ms}") long expirationMs) {
+
+        this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         this.expirationMs = expirationMs;
     }
 
@@ -46,7 +52,6 @@ public class JwtUtil {
     }
 
     public Long extractUserId(String token) {
-        // Ensure conversion to Long as required by extractUserId(String) -> Long
         Object userId = parseClaims(token).get("userId");
         if (userId instanceof Integer) {
             return ((Integer) userId).longValue();
